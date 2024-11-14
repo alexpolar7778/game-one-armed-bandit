@@ -5,6 +5,8 @@ window.onload = function() {
   const gameIcons = ["apple", "pear", "lemon", "apricot", "cherries", "seven"];
   const generateButton = document.getElementById("generate");
   const winChance = 0.7;
+  let tries = 0;
+  let consecutiveWins = 0;
 
   function getRandomGameIcons() {
       let columns = [[], [], []];
@@ -66,11 +68,21 @@ window.onload = function() {
                   columns[1][centralRow] === columns[2][centralRow];
 
       setTimeout(() => {
-          alert(win ? "Congratulations! You win!" : "Try again! Better luck next time.");
+          if (win) {
+              consecutiveWins++;
+              if (consecutiveWins === 3) {
+                  alert("Congratulations! You've won 3 times in a row!");
+                  consecutiveWins = 0;
+              } else {
+                  alert("You win! Keep going to win 3 times in a row.");
+              }
+          } else {
+              consecutiveWins = 0;
+              alert("Try again! Better luck next time.");
+          }
       }, 200);
   }
 
-  let tries = 0;
   generateButton.onclick = function() {
       tries++;
       if (tries <= 3) {
